@@ -1,0 +1,737 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>INZONE PLAY PROFILE</title>
+  <style>
+    :root {
+      --bg: #09090b;
+      --panel: #18181b;
+      --panel2: #27272a;
+      --text: #ffffff;
+      --muted: #a1a1aa;
+      --line: rgba(255,255,255,.1);
+      --soft: rgba(255,255,255,.08);
+      --white: #ffffff;
+      --black: #09090b;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 56px 24px;
+    }
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 15% 15%, rgba(90,120,255,.28), transparent 30%),
+        radial-gradient(circle at 85% 10%, rgba(255,255,255,.13), transparent 25%),
+        radial-gradient(circle at 70% 85%, rgba(80,80,120,.22), transparent 28%);
+      pointer-events: none;
+    }
+    .wrap {
+      position: relative;
+      max-width: 1120px;
+      margin: 0 auto;
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 32px;
+      align-items: center;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.1);
+      border-radius: 999px;
+      padding: 9px 15px;
+      color: #e4e4e7;
+      font-size: 14px;
+      backdrop-filter: blur(8px);
+    }
+    h1 {
+      margin: 18px 0 0;
+      font-size: clamp(42px, 7vw, 72px);
+      line-height: 1.02;
+      letter-spacing: -0.04em;
+    }
+    .lead {
+      max-width: 600px;
+      margin-top: 24px;
+      color: #d4d4d8;
+      line-height: 1.9;
+      font-size: 17px;
+    }
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 28px;
+      color: #d4d4d8;
+      font-size: 14px;
+    }
+    .tag {
+      background: rgba(255,255,255,.1);
+      border-radius: 999px;
+      padding: 9px 15px;
+    }
+    .progress-card {
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.1);
+      border-radius: 28px;
+      padding: 26px;
+      box-shadow: 0 24px 80px rgba(0,0,0,.3);
+      backdrop-filter: blur(8px);
+    }
+    .progress-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .muted { color: var(--muted); }
+    .percent { font-size: 28px; font-weight: 700; margin-top: 4px; }
+    .bar {
+      height: 8px;
+      border-radius: 999px;
+      overflow: hidden;
+      background: rgba(255,255,255,.1);
+    }
+    .bar > div {
+      height: 100%;
+      width: 0%;
+      background: white;
+      border-radius: 999px;
+      transition: width .25s ease;
+    }
+    main {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 24px 56px;
+    }
+    .questions {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+    .q-card {
+      border: 1px solid var(--line);
+      background: var(--panel);
+      border-radius: 28px;
+      padding: 22px;
+      box-shadow: 0 16px 45px rgba(0,0,0,.22);
+    }
+    .q-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+    .num {
+      width: 36px;
+      height: 36px;
+      border-radius: 999px;
+      background: white;
+      color: var(--black);
+      display: grid;
+      place-items: center;
+      font-size: 14px;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+    .q-title h2 {
+      margin: 0;
+      font-size: 18px;
+      line-height: 1.45;
+    }
+    .options {
+      display: grid;
+      gap: 10px;
+    }
+    button.option {
+      width: 100%;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.05);
+      color: #e4e4e7;
+      border-radius: 18px;
+      padding: 15px;
+      text-align: left;
+      line-height: 1.6;
+      font-size: 14px;
+      cursor: pointer;
+      transition: .15s ease;
+    }
+    button.option:hover { background: rgba(255,255,255,.1); }
+    button.option.active {
+      background: white;
+      color: var(--black);
+      border-color: white;
+      font-weight: 650;
+    }
+    .center {
+      display: flex;
+      justify-content: center;
+      margin-top: 32px;
+    }
+    .primary {
+      border: 0;
+      border-radius: 18px;
+      background: white;
+      color: var(--black);
+      padding: 16px 30px;
+      font-size: 16px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    .primary:disabled {
+      opacity: .4;
+      cursor: not-allowed;
+    }
+    .result {
+      display: none;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background: var(--panel);
+      border-radius: 30px;
+      box-shadow: 0 24px 80px rgba(0,0,0,.35);
+    }
+    .result-grid {
+      display: grid;
+      grid-template-columns: .9fr 1.1fr;
+    }
+    .result-left {
+      background: linear-gradient(135deg, #27272a, #09090b);
+      padding: 34px;
+    }
+    .icon-box {
+      width: 58px;
+      height: 58px;
+      border-radius: 18px;
+      background: white;
+      color: var(--black);
+      display: grid;
+      place-items: center;
+      font-size: 28px;
+      margin: 18px 0;
+    }
+    .result-title {
+      font-size: 42px;
+      font-weight: 850;
+      line-height: 1.1;
+      margin: 0;
+    }
+    .quote {
+      margin-top: 20px;
+      color: #e4e4e7;
+      font-size: 21px;
+      line-height: 1.55;
+    }
+    .info-box {
+      margin-top: 26px;
+      background: rgba(255,255,255,.1);
+      border-radius: 20px;
+      padding: 18px;
+      display: flex;
+      gap: 12px;
+    }
+    .result-right {
+      padding: 34px;
+    }
+    .result-right h3 {
+      font-size: 26px;
+      margin: 0 0 14px;
+    }
+    .reason {
+      color: #d4d4d8;
+      line-height: 1.9;
+    }
+    .share {
+      margin-top: 26px;
+      border: 1px solid var(--line);
+      background: white;
+      color: var(--black);
+      border-radius: 24px;
+      padding: 24px;
+    }
+    .share-title {
+      color: #52525b;
+      font-size: 14px;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+    .share-main {
+      font-size: 24px;
+      font-weight: 850;
+      margin: 0;
+    }
+    .three {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 26px;
+    }
+    .mini {
+      background: rgba(255,255,255,.05);
+      border-radius: 18px;
+      padding: 16px;
+    }
+    .mini strong { display: block; margin-bottom: 8px; }
+    .mini p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.7;
+    }
+    .cta {
+      margin-top: 24px;
+      background: rgba(255,255,255,.05);
+      border-radius: 18px;
+      padding: 16px;
+      color: #d4d4d8;
+      line-height: 1.7;
+    }
+    .secondary {
+      margin-top: 24px;
+      border: 0;
+      border-radius: 18px;
+      background: white;
+      color: var(--black);
+      padding: 15px 22px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    .top-actions {
+      position: fixed;
+      top: 18px;
+      right: 18px;
+      z-index: 50;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    .explain-toggle, .x-post {
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(24,24,27,.82);
+      color: white;
+      border-radius: 999px;
+      padding: 10px 15px;
+      font-size: 13px;
+      font-weight: 750;
+      cursor: pointer;
+      text-decoration: none;
+      backdrop-filter: blur(10px);
+    }
+    .explain-panel {
+      position: fixed;
+      top: 66px;
+      right: 18px;
+      z-index: 49;
+      width: min(360px, calc(100vw - 36px));
+      display: none;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(24,24,27,.94);
+      border-radius: 24px;
+      padding: 20px;
+      box-shadow: 0 24px 80px rgba(0,0,0,.4);
+      backdrop-filter: blur(14px);
+    }
+    .explain-panel.show { display: block; }
+    .explain-panel h2 {
+      margin: 0 0 10px;
+      font-size: 18px;
+    }
+    .explain-panel p, .explain-panel li {
+      color: #d4d4d8;
+      font-size: 13px;
+      line-height: 1.75;
+    }
+    .explain-panel ul {
+      padding-left: 18px;
+      margin: 10px 0 0;
+    }
+    .simple-icon {
+      width: 22px;
+      height: 22px;
+      flex: 0 0 auto;
+      color: white;
+      margin-top: 2px;
+    }
+    .result-left .info-box:first-of-type .simple-icon,
+    .result-left .info-box:nth-of-type(2) .simple-icon {
+      color: white;
+    }
+    body.hide-explanation .presentation-note,
+    body.hide-explanation .marketing-cards {
+      display: none !important;
+    }
+    .share-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 16px;
+    }
+    .share-actions a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      background: #09090b;
+      color: white;
+      text-decoration: none;
+      padding: 11px 16px;
+      font-size: 14px;
+      font-weight: 800;
+    }
+    @media (max-width: 900px) {
+      .hero-grid, .result-grid { grid-template-columns: 1fr; }
+      .questions { grid-template-columns: 1fr; }
+      .three { grid-template-columns: 1fr; }
+      .hero { padding: 40px 18px; }
+      main { padding-inline: 18px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="top-actions">
+    <button class="explain-toggle" id="explainToggle">補足表示を非表示</button>
+  </div>
+
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <div class="badge">✦ INZONE PLAY PROFILE</div>
+        <h1>あなたの<br>ゲーム没入タイプ診断</h1>
+        <p class="lead">12個の質問から、ゲーム・通話・作業まで含めたあなたの使い方に合うH9 IIの魅力と理想の環境を提案します。</p>
+        <div class="tags">
+          <span class="tag">#INZONE部屋</span>
+          <span class="tag">#H9II</span>
+          <span class="tag">#ゲーム没入タイプ診断</span>
+        </div>
+      </div>
+      <div class="progress-card">
+        <div class="progress-top">
+          <div>
+            <div class="muted">診断進行度</div>
+            <div class="percent" id="percent">0%</div>
+          </div>
+          <div style="font-size:42px">🎧</div>
+        </div>
+        <div class="bar"><div id="bar"></div></div>
+        <p class="lead presentation-note" style="font-size:14px;margin-top:20px;">診断結果はSNSで共有できるカード風に表示。ゲームだけでなく、通話・オンライン授業・作業にも使えるH9 IIの価値を自分ごと化させる設計です。</p>
+      </div>
+    </div>
+  </section>
+
+  <main>
+    <div class="questions" id="questions"></div>
+    <div class="center" id="submitWrap">
+      <button class="primary" id="submit" disabled>診断結果を見る</button>
+    </div>
+
+    <section class="result" id="result">
+      <div class="result-grid">
+        <div class="result-left">
+          <p class="muted">あなたのタイプ</p>
+          <div class="icon-box" id="resultIcon">🌙</div>
+          <h2 class="result-title" id="resultTitle"></h2>
+          <p class="quote" id="resultCopy"></p>
+
+          <div class="info-box">
+            <svg class="simple-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M4 13a8 8 0 0 1 16 0" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              <path d="M4 13v4a2 2 0 0 0 2 2h1v-8H6a2 2 0 0 0-2 2Z" stroke="currentColor" stroke-width="2"/>
+              <path d="M20 13v4a2 2 0 0 1-2 2h-1v-8h1a2 2 0 0 1 2 2Z" stroke="currentColor" stroke-width="2"/>
+            </svg>
+            <div>
+              <div class="muted">このタイプに刺さるH9 IIの価値</div>
+              <strong id="resultValueTitle">INZONE H9 II</strong>
+              <div class="muted" id="resultFeature" style="margin-top:4px;"></div>
+            </div>
+          </div>
+
+          <div class="info-box">
+            <svg class="simple-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <rect x="3" y="4" width="18" height="12" rx="2" stroke="currentColor" stroke-width="2"/>
+              <path d="M8 20h8M12 16v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            <div>
+              <div class="muted">理想のゲーム環境</div>
+              <strong id="resultRoom"></strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="result-right">
+          <h3>診断理由</h3>
+          <p class="reason" id="resultReason"></p>
+
+          <div class="share">
+            <div class="share-title">SNS共有カード例</div>
+            <p class="share-main" id="shareMain"></p>
+            <p id="shareCopy" style="color:#3f3f46;"></p>
+            <p style="color:#71717a;font-size:14px;">#INZONE部屋 #H9II #ゲーム没入タイプ診断</p>
+            <div class="share-actions">
+              <a href="#" id="xShare" target="_blank" rel="noopener noreferrer">Xに投稿する</a>
+            </div>
+          </div>
+
+          <div class="three marketing-cards">
+            <div class="mini">
+              <strong>認知拡大</strong>
+              <p>診断結果の共有でH9 IIとの接触を増やす。</p>
+            </div>
+            <div class="mini">
+              <strong>価値理解</strong>
+              <p>ゲーム・通話・作業とH9 IIの強みを結び付ける。</p>
+            </div>
+            <div class="mini">
+              <strong>購入導線</strong>
+              <p>商品ページや店頭試聴へ誘導する。</p>
+            </div>
+          </div>
+
+          <p class="cta" id="resultCta"></p>
+          <button class="secondary" id="reset">もう一度診断する</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const questions = [
+      { id: "time", label: "ゲーミングヘッドセットを使う時間帯は？", options: [
+        ["平日の昼間、授業や作業でも使いたい", { work: 3, balanced: 1 }],
+        ["平日の夜、ゲーム中心で使いたい", { night: 2, comfort: 1 }],
+        ["深夜、周囲を気にせず集中したい", { night: 3 }],
+        ["休日、長時間まとめて使いたい", { comfort: 3 }]
+      ]},
+      { id: "length", label: "1回の使用時間は？", options: [
+        ["1時間未満", { balanced: 2 }],
+        ["1〜2時間", { balanced: 2, social: 1 }],
+        ["3〜4時間", { comfort: 2, work: 1 }],
+        ["5時間以上", { comfort: 3 }]
+      ]},
+      { id: "genre", label: "最もよく使う場面は？", options: [
+        ["FPS/TPS", { fps: 3 }],
+        ["RPG・オープンワールド", { night: 2 }],
+        ["フレンドとのオンラインゲーム", { social: 3 }],
+        ["オンライン授業・通話・作業", { work: 3 }]
+      ]},
+      { id: "value", label: "使用中に最も重視するものは？", options: [
+        ["勝つための音情報", { fps: 3 }],
+        ["ゲーム世界への没入感", { night: 3 }],
+        ["友達との会話のしやすさ", { social: 3 }],
+        ["作業や通話にも使える汎用性", { work: 3 }]
+      ]},
+      { id: "lose", label: "FPSで敵に負けたとき、最も気になるのは？", options: [
+        ["足音を聞き逃した", { fps: 3 }],
+        ["エイムが悪かった", { fps: 2 }],
+        ["連携不足", { social: 2 }],
+        ["FPSはあまり重視していない", { balanced: 1, work: 1 }]
+      ]},
+      { id: "headset", label: "ヘッドセットを選ぶなら何を重視する？", options: [
+        ["音の聞こえ方", { fps: 2, night: 1 }],
+        ["装着感", { comfort: 3 }],
+        ["デザイン", { space: 3 }],
+        ["マイク性能・通話品質", { social: 2, work: 2 }]
+      ]},
+      { id: "room", label: "部屋づくりで重視するものは？", options: [
+        ["ゲームに集中できる環境", { fps: 1, night: 2 }],
+        ["おしゃれさ", { space: 3 }],
+        ["作業もゲームもできる環境", { work: 3, balanced: 1 }],
+        ["特に気にしない", { balanced: 2 }]
+      ]},
+      { id: "noise", label: "周囲の音は気になる？", options: [
+        ["ゲーム中も作業中もかなり気になる", { night: 2, work: 2 }],
+        ["ゲーム中は少し気になる", { night: 2 }],
+        ["通話中の生活音が気になる", { work: 3, social: 1 }],
+        ["あまり気にならない", { balanced: 2 }]
+      ]},
+      { id: "vc", label: "Discordやオンライン通話はどれくらい使う？", options: [
+        ["ゲームでも作業でも毎回使う", { social: 2, work: 2 }],
+        ["ゲーム中によく使う", { social: 3 }],
+        ["授業・会議・通話でよく使う", { work: 3 }],
+        ["ほとんど使わない", { night: 1, fps: 1 }]
+      ]},
+      { id: "choice", label: "ゲーム機材を選ぶときは？", options: [
+        ["プロ選手の使用機材を見る", { fps: 3 }],
+        ["レビュー動画を見る", { balanced: 2, comfort: 1 }],
+        ["デザインで選ぶ", { space: 3 }],
+        ["ゲーム以外でも使えるかで選ぶ", { work: 3 }]
+      ]},
+      { id: "ideal", label: "理想の使い方はどれ？", options: [
+        ["ランクを上げるために集中する", { fps: 3 }],
+        ["フレンドと盛り上がる", { social: 3 }],
+        ["一人でゲームに没頭する", { night: 3 }],
+        ["ゲーム後もそのまま作業や通話に使う", { work: 3 }]
+      ]},
+      { id: "idealRoom", label: "理想のデスク環境に近いのは？", options: [
+        ["競技環境重視", { fps: 3 }],
+        ["暗めの没入空間", { night: 3 }],
+        ["白黒で統一された空間", { space: 3 }],
+        ["ゲーム・勉強・作業を兼用できる空間", { work: 3, balanced: 1 }]
+      ]}
+    ];
+
+    const resultData = {
+      night: {
+        icon: "🌙", title: "深夜没入型", copy: "周囲の音を抑えて、ゲーム世界に入り込む。",
+        valueTitle: "周囲を抑えて没入できる",
+        feature: "ノイズキャンセリング × 立体音響",
+        room: "暗めの間接照明、黒系デスク、視界に余計な物が入らない配置",
+        reason: "夜や深夜に一人でゲームへ没頭するタイプ。H9 IIのノイズキャンセリングと立体音響により、周囲の生活音を抑えながらゲーム内の空気感に集中できます。",
+        cta: "H9 IIで深夜のゲーム時間をもっと没入型に。"
+      },
+      fps: {
+        icon: "🏆", title: "FPS集中型", copy: "聞こえる情報を、勝つための判断に変える。",
+        valueTitle: "音を判断材料にできる",
+        feature: "足音・方向感 × 集中環境",
+        room: "モニター正面配置、低反射デスク、マウス操作を邪魔しないシンプル環境",
+        reason: "FPS/TPSで勝つことを重視するタイプ。足音や方向感など、音から得られる情報を重視するため、H9 IIの立体音響訴求と相性が高いです。",
+        cta: "H9 IIで索敵と集中をサポート。"
+      },
+      comfort: {
+        icon: "⏱️", title: "長時間プレイ型", copy: "長く遊ぶほど、快適さが差になる。",
+        valueTitle: "長く使っても疲れにくい",
+        feature: "長時間装着 × 快適性",
+        room: "疲れにくいチェア、目に優しい照明、飲み物や充電器を置ける余白",
+        reason: "休日や夜に長時間遊ぶタイプ。音質だけでなく、耳や頭への負担が少ないことが購入理由になりやすく、H9 IIの快適性を伝えやすい層です。",
+        cta: "H9 IIで長時間プレイを快適に。"
+      },
+      social: {
+        icon: "🎙️", title: "フレンドVC型", copy: "声もゲーム音も、ちょうどよく楽しむ。",
+        valueTitle: "会話しながら快適に遊べる",
+        feature: "マイク品質 × ワイヤレス快適性",
+        room: "VCしやすい静かな環境、マイク音声を意識した配置、明るすぎない照明",
+        reason: "DiscordやVCを使って友達と遊ぶことが多いタイプ。ゲーム音と会話の両方が重要なため、H9 IIのマイク・快適性・没入感をまとめて訴求できます。",
+        cta: "H9 IIでフレンドとの時間をもっと快適に。"
+      },
+      space: {
+        icon: "🎨", title: "ゲーム空間重視型", copy: "ゲーム機材を、部屋の一部として選ぶ。",
+        valueTitle: "部屋になじむデザイン",
+        feature: "PS5との統一感 × デザイン性",
+        room: "白黒で統一されたデスク、PS5、間接照明、配線を隠したレイアウト",
+        reason: "性能だけでなく、部屋に置いた時の見た目や統一感を重視するタイプ。H9 IIの白黒デザインやPS5との親和性を最も自然に訴求できます。",
+        cta: "H9 IIで理想のゲーム空間を完成させる。"
+      },
+      work: {
+        icon: "💻", title: "ゲーム＋ワーク両立型", copy: "ゲームも通話も作業も、ひとつで整える。",
+        valueTitle: "ゲームも作業も一本化できる",
+        feature: "マイク品質 × ノイズキャンセリング × 汎用性",
+        room: "ゲームと作業を兼用できるデスク、ノートPC、PS5、通話しやすい静かな配置",
+        reason: "ゲームだけでなく、オンライン授業・リモートワーク・作業中の集中にも使いたいタイプ。H9 IIはゲーミングヘッドセットでありながら、通話や作業にも使える点を訴求できます。",
+        cta: "H9 IIでゲーム時間と作業時間の両方をアップデート。"
+      },
+      balanced: {
+        icon: "🎮", title: "オールラウンド型", copy: "ゲームにも、普段使いにも自然に使える。",
+        valueTitle: "毎日の用途に幅広く使える",
+        feature: "音・快適性・通話・デザインのバランス",
+        room: "PCとPS5を切り替えやすいデスク、ゲームと作業を兼用できるシンプルな配置",
+        reason: "競技性、快適性、通話、デザインをバランスよく求めるタイプ。H9 IIを“ゲーム専用の高級機材”ではなく、毎日のゲーム時間と作業時間を底上げする機材として提案できます。",
+        cta: "H9 IIでゲームも作業も快適にアップデート。"
+      }
+    };
+
+    const answers = {};
+    const questionsEl = document.getElementById("questions");
+    const submit = document.getElementById("submit");
+    const percent = document.getElementById("percent");
+    const bar = document.getElementById("bar");
+
+    function updateProgress() {
+      const count = Object.keys(answers).length;
+      const p = Math.round(count / questions.length * 100);
+      percent.textContent = p + "%";
+      bar.style.width = p + "%";
+      submit.disabled = count < questions.length;
+    }
+
+    function renderQuestions() {
+      questionsEl.innerHTML = "";
+      questions.forEach((q, index) => {
+        const card = document.createElement("section");
+        card.className = "q-card";
+        card.innerHTML = `
+          <div class="q-title">
+            <div class="num">${index + 1}</div>
+            <h2>${q.label}</h2>
+          </div>
+          <div class="options"></div>
+        `;
+        const options = card.querySelector(".options");
+        q.options.forEach(([label, scores]) => {
+          const btn = document.createElement("button");
+          btn.className = "option";
+          btn.textContent = label;
+          btn.onclick = () => {
+            answers[q.id] = { label, scores };
+            [...options.children].forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+            updateProgress();
+          };
+          options.appendChild(btn);
+        });
+        questionsEl.appendChild(card);
+      });
+    }
+
+    function calculateResult() {
+      const scores = { night: 0, fps: 0, comfort: 0, social: 0, space: 0, work: 0, balanced: 0 };
+      Object.values(answers).forEach(answer => {
+        Object.entries(answer.scores).forEach(([key, value]) => scores[key] += value);
+      });
+      return Object.entries(scores).sort((a,b) => b[1] - a[1])[0][0];
+    }
+
+    submit.onclick = () => {
+      const key = calculateResult();
+      const r = resultData[key];
+      document.getElementById("questions").style.display = "none";
+      document.getElementById("submitWrap").style.display = "none";
+      document.getElementById("result").style.display = "block";
+      document.getElementById("resultIcon").textContent = r.icon;
+      document.getElementById("resultTitle").textContent = r.title;
+      document.getElementById("resultCopy").textContent = "“" + r.copy + "”";
+      
+      document.getElementById("resultValueTitle").textContent = r.valueTitle || "H9 IIの価値";
+      document.getElementById("resultFeature").textContent = r.feature;
+
+      document.getElementById("resultRoom").textContent = r.room;
+      document.getElementById("resultReason").textContent = r.reason;
+      document.getElementById("shareMain").textContent = "私は「" + r.title + "」";
+      document.getElementById("shareCopy").textContent = r.copy;
+      
+      document.getElementById("resultCta").textContent = r.cta;
+      const postText = `私は「${r.title}」でした。${r.copy}\n#INZONE部屋 #H9II #ゲーム没入タイプ診断`;
+      document.getElementById("xShare").href = "https://twitter.com/intent/tweet?text=" + encodeURIComponent(postText);
+      window.scrollTo({ top: document.getElementById("result").offsetTop - 24, behavior: "smooth" });
+    };
+
+    
+    document.getElementById("reset").onclick = () => location.reload();
+
+    const explainToggle = document.getElementById("explainToggle");
+    explainToggle.onclick = () => {
+      document.body.classList.toggle("hide-explanation");
+      explainToggle.textContent = document.body.classList.contains("hide-explanation")
+        ? "補足表示を表示"
+        : "補足表示を非表示";
+    };
+
+    renderQuestions();
+    updateProgress();
+  </script>
+</body>
+</html>
