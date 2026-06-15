@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>INZONE PLAY PROFILE</title>
+  <title>INZONE PLAY PROFILE | あなたのゲーム没入タイプ診断</title>
   <style>
     :root {
       --bg: #09090b;
@@ -226,6 +226,10 @@
       font-size: 28px;
       margin: 18px 0;
     }
+    .icon-box svg {
+      width: 30px;
+      height: 30px;
+    }
     .result-title {
       font-size: 42px;
       font-weight: 850;
@@ -411,11 +415,11 @@
   <section class="hero">
     <div class="wrap hero-grid">
       <div>
-        <div class="badge">✦ INZONE PLAY PROFILE</div>
+        <div class="badge">INZONE PLAY PROFILE</div>
         <h1>あなたの<br>ゲーム没入タイプ診断</h1>
-        <p class="lead">12個の質問から、ゲーム・通話・作業まで含めたあなたの使い方に合うH9 IIの魅力と理想の環境を提案します。</p>
+        <p class="lead">12個の質問から、ゲーム・通話・作業まで含めたあなたの使い方に合わせて、H9 IIとの相性を診断します。</p>
         <div class="tags">
-          <span class="tag">#INZONE部屋</span>
+          <span class="tag">#INZONEPlayProfile</span>
           <span class="tag">#H9II</span>
           <span class="tag">#ゲーム没入タイプ診断</span>
         </div>
@@ -426,10 +430,9 @@
             <div class="muted">診断進行度</div>
             <div class="percent" id="percent">0%</div>
           </div>
-          <div style="font-size:42px">🎧</div>
         </div>
         <div class="bar"><div id="bar"></div></div>
-        <p class="lead presentation-note" style="font-size:14px;margin-top:20px;">診断結果はSNSで共有できるカード風に表示。ゲームだけでなく、通話・オンライン授業・作業にも使えるH9 IIの価値を自分ごと化させる設計です。</p>
+        <p class="lead presentation-note" style="font-size:14px;margin-top:20px;">診断結果はSNSで共有しやすいカード風に表示。自分の遊び方や作業スタイルに合うポイントを確認できます。</p>
       </div>
     </div>
   </section>
@@ -444,7 +447,7 @@
       <div class="result-grid">
         <div class="result-left">
           <p class="muted">あなたのタイプ</p>
-          <div class="icon-box" id="resultIcon">🌙</div>
+          <div class="icon-box" id="resultIcon" aria-hidden="true"></div>
           <h2 class="result-title" id="resultTitle"></h2>
           <p class="quote" id="resultCopy"></p>
 
@@ -455,7 +458,7 @@
               <path d="M20 13v4a2 2 0 0 1-2 2h-1v-8h1a2 2 0 0 1 2 2Z" stroke="currentColor" stroke-width="2"/>
             </svg>
             <div>
-              <div class="muted">このタイプに刺さるH9 IIの価値</div>
+              <div class="muted">あなたのタイプに合うH9 IIのポイント</div>
               <strong id="resultValueTitle">INZONE H9 II</strong>
               <div class="muted" id="resultFeature" style="margin-top:4px;"></div>
             </div>
@@ -467,7 +470,7 @@
               <path d="M8 20h8M12 16v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
             </svg>
             <div>
-              <div class="muted">理想のゲーム環境</div>
+              <div class="muted">あなたに合う使用シーン</div>
               <strong id="resultRoom"></strong>
             </div>
           </div>
@@ -481,7 +484,7 @@
             <div class="share-title">SNS共有カード例</div>
             <p class="share-main" id="shareMain"></p>
             <p id="shareCopy" style="color:#3f3f46;"></p>
-            <p style="color:#71717a;font-size:14px;">#INZONE部屋 #H9II #ゲーム没入タイプ診断</p>
+            <p style="color:#71717a;font-size:14px;">#INZONEPlayProfile #H9II #ゲーム没入タイプ診断</p>
             <div class="share-actions">
               <a href="#" id="xShare" target="_blank" rel="noopener noreferrer">Xに投稿する</a>
             </div>
@@ -489,16 +492,16 @@
 
           <div class="three marketing-cards">
             <div class="mini">
-              <strong>認知拡大</strong>
-              <p>診断結果の共有でH9 IIとの接触を増やす。</p>
+              <strong>集中しやすい</strong>
+              <p>ゲーム中に聞きたい音へ意識を向けやすくなります。</p>
             </div>
             <div class="mini">
-              <strong>価値理解</strong>
-              <p>ゲーム・通話・作業とH9 IIの強みを結び付ける。</p>
+              <strong>使い分けやすい</strong>
+              <p>ゲーム、通話、作業をひとつのヘッドセットで切り替えやすくなります。</p>
             </div>
             <div class="mini">
-              <strong>購入導線</strong>
-              <p>商品ページや店頭試聴へ誘導する。</p>
+              <strong>選びやすい</strong>
+              <p>自分の使い方に合うかを、装着感や音の聞こえ方から確認できます。</p>
             </div>
           </div>
 
@@ -511,11 +514,11 @@
 
   <script>
     const questions = [
-      { id: "time", label: "ゲーミングヘッドセットを使う時間帯は？", options: [
-        ["平日の昼間、授業や作業でも使いたい", { work: 3, balanced: 1 }],
-        ["平日の夜、ゲーム中心で使いたい", { night: 2, comfort: 1 }],
-        ["深夜、周囲を気にせず集中したい", { night: 3 }],
-        ["休日、長時間まとめて使いたい", { comfort: 3 }]
+      { id: "time", label: "H9 IIを使う時間帯は？", options: [
+        ["平日の昼間。授業や作業でも使いたい", { work: 3, balanced: 1 }],
+        ["平日の夜。ゲーム中心で使いたい", { night: 2, comfort: 1 }],
+        ["深夜。周囲を気にせず集中したい", { night: 3 }],
+        ["休日。長時間まとめて使いたい", { comfort: 3 }]
       ]},
       { id: "length", label: "1回の使用時間は？", options: [
         ["1時間未満", { balanced: 2 }],
@@ -547,10 +550,10 @@
         ["デザイン", { space: 3 }],
         ["マイク性能・通話品質", { social: 2, work: 2 }]
       ]},
-      { id: "room", label: "部屋づくりで重視するものは？", options: [
-        ["ゲームに集中できる環境", { fps: 1, night: 2 }],
-        ["おしゃれさ", { space: 3 }],
-        ["作業もゲームもできる環境", { work: 3, balanced: 1 }],
+      { id: "room", label: "H9 IIを使う環境で重視するものは？", options: [
+        ["ゲームに集中できること", { fps: 1, night: 2 }],
+        ["見た目の統一感", { space: 3 }],
+        ["作業もゲームもできること", { work: 3, balanced: 1 }],
         ["特に気にしない", { balanced: 2 }]
       ]},
       { id: "noise", label: "周囲の音は気になる？", options: [
@@ -577,70 +580,70 @@
         ["一人でゲームに没頭する", { night: 3 }],
         ["ゲーム後もそのまま作業や通話に使う", { work: 3 }]
       ]},
-      { id: "idealRoom", label: "理想のデスク環境に近いのは？", options: [
-        ["競技環境重視", { fps: 3 }],
-        ["暗めの没入空間", { night: 3 }],
-        ["白黒で統一された空間", { space: 3 }],
-        ["ゲーム・勉強・作業を兼用できる空間", { work: 3, balanced: 1 }]
+      { id: "idealRoom", label: "H9 IIを使う環境に近いのは？", options: [
+        ["FPSなどの競技プレイ重視", { fps: 3 }],
+        ["暗めの環境で没入したい", { night: 3 }],
+        ["PS5やデスク周りと統一感を出したい", { space: 3 }],
+        ["ゲーム・勉強・作業を兼用する", { work: 3, balanced: 1 }]
       ]}
     ];
 
     const resultData = {
       night: {
-        icon: "🌙", title: "深夜没入型", copy: "周囲の音を抑えて、ゲーム世界に入り込む。",
+        title: "深夜没入型", copy: "周囲の音を抑えて、ゲーム世界に入り込む。",
         valueTitle: "周囲を抑えて没入できる",
         feature: "ノイズキャンセリング × 立体音響",
-        room: "暗めの間接照明、黒系デスク、視界に余計な物が入らない配置",
-        reason: "夜や深夜に一人でゲームへ没頭するタイプ。H9 IIのノイズキャンセリングと立体音響により、周囲の生活音を抑えながらゲーム内の空気感に集中できます。",
-        cta: "H9 IIで深夜のゲーム時間をもっと没入型に。"
+        room: "暗めの照明、視界に余計な物が入らない配置、音に集中しやすいデスク周り",
+        reason: "夜や深夜に、一人でゲームの世界へ深く入り込みたいタイプです。H9 IIを使うと、周囲の生活音を抑えながら、ゲーム内の空気感や方向感に集中しやすくなります。",
+        cta: "深夜のゲーム時間を、周りを気にせず楽しみたい人に合っています。"
       },
       fps: {
-        icon: "🏆", title: "FPS集中型", copy: "聞こえる情報を、勝つための判断に変える。",
+        title: "FPS集中型", copy: "聞こえる情報を、勝つための判断に変える。",
         valueTitle: "音を判断材料にできる",
         feature: "足音・方向感 × 集中環境",
-        room: "モニター正面配置、低反射デスク、マウス操作を邪魔しないシンプル環境",
-        reason: "FPS/TPSで勝つことを重視するタイプ。足音や方向感など、音から得られる情報を重視するため、H9 IIの立体音響訴求と相性が高いです。",
-        cta: "H9 IIで索敵と集中をサポート。"
+        room: "モニター正面配置、マウス操作を邪魔しないシンプルなデスク周り",
+        reason: "FPS/TPSで、足音や方向感などの音情報をプレイ中の判断に活かしたいタイプです。H9 IIを使うと、画面だけでは分かりにくい気配にも意識を向けやすくなります。",
+        cta: "索敵や立ち回りに、音の情報をもっと使いたい人に合っています。"
       },
       comfort: {
-        icon: "⏱️", title: "長時間プレイ型", copy: "長く遊ぶほど、快適さが差になる。",
+        title: "長時間プレイ型", copy: "長く遊ぶほど、快適さが差になる。",
         valueTitle: "長く使っても疲れにくい",
         feature: "長時間装着 × 快適性",
-        room: "疲れにくいチェア、目に優しい照明、飲み物や充電器を置ける余白",
-        reason: "休日や夜に長時間遊ぶタイプ。音質だけでなく、耳や頭への負担が少ないことが購入理由になりやすく、H9 IIの快適性を伝えやすい層です。",
-        cta: "H9 IIで長時間プレイを快適に。"
+        room: "長時間使いやすいチェア、目に優しい照明、充電器や飲み物を置ける余白",
+        reason: "休日や夜に、まとまった時間でゲームを楽しむタイプです。H9 IIは音だけでなく装着感も重視しやすいので、長く使うほど快適さを感じやすくなります。",
+        cta: "長時間プレイでも、耳や頭の疲れをできるだけ抑えたい人に合っています。"
       },
       social: {
-        icon: "🎙️", title: "フレンドVC型", copy: "声もゲーム音も、ちょうどよく楽しむ。",
+        title: "フレンドVC型", copy: "声もゲーム音も、ちょうどよく楽しむ。",
         valueTitle: "会話しながら快適に遊べる",
         feature: "マイク品質 × ワイヤレス快適性",
-        room: "VCしやすい静かな環境、マイク音声を意識した配置、明るすぎない照明",
-        reason: "DiscordやVCを使って友達と遊ぶことが多いタイプ。ゲーム音と会話の両方が重要なため、H9 IIのマイク・快適性・没入感をまとめて訴求できます。",
-        cta: "H9 IIでフレンドとの時間をもっと快適に。"
+        room: "VCしやすい静かな場所、マイク音声が入りやすい配置、明るすぎない照明",
+        reason: "DiscordやVCを使いながら、友達と一緒に遊ぶ時間を大事にするタイプです。H9 IIなら、ゲーム音を楽しみながら会話もしやすく、ワイヤレスで姿勢も変えやすくなります。",
+        cta: "フレンドとの通話もゲーム音も、どちらも快適に楽しみたい人に合っています。"
       },
       space: {
-        icon: "🎨", title: "ゲーム空間重視型", copy: "ゲーム機材を、部屋の一部として選ぶ。",
+        title: "デザイン統一型", copy: "ゲーム機材を、デスク周りになじむものとして選ぶ。",
         valueTitle: "部屋になじむデザイン",
         feature: "PS5との統一感 × デザイン性",
-        room: "白黒で統一されたデスク、PS5、間接照明、配線を隠したレイアウト",
-        reason: "性能だけでなく、部屋に置いた時の見た目や統一感を重視するタイプ。H9 IIの白黒デザインやPS5との親和性を最も自然に訴求できます。",
-        cta: "H9 IIで理想のゲーム空間を完成させる。"
+        room: "PS5や白黒デスクと合わせやすいレイアウト、配線を抑えたシンプルなデスク周り",
+        reason: "性能だけでなく、デスク周りに置いたときの見た目や統一感も大事にするタイプです。H9 IIは白黒のデザインなので、PS5やシンプルなデスク環境にも合わせやすくなります。",
+        cta: "ゲーム体験だけでなく、デスク周りの見た目も整えたい人に合っています。"
       },
       work: {
-        icon: "💻", title: "ゲーム＋ワーク両立型", copy: "ゲームも通話も作業も、ひとつで整える。",
+        title: "ゲーム＋ワーク両立型", copy: "ゲームも通話も作業も、ひとつで整える。",
         valueTitle: "ゲームも作業も一本化できる",
         feature: "マイク品質 × ノイズキャンセリング × 汎用性",
-        room: "ゲームと作業を兼用できるデスク、ノートPC、PS5、通話しやすい静かな配置",
-        reason: "ゲームだけでなく、オンライン授業・リモートワーク・作業中の集中にも使いたいタイプ。H9 IIはゲーミングヘッドセットでありながら、通話や作業にも使える点を訴求できます。",
-        cta: "H9 IIでゲーム時間と作業時間の両方をアップデート。"
+        room: "ノートPC、PS5、オンライン通話を切り替えやすいデスク周り",
+        reason: "ゲームだけでなく、オンライン授業・通話・作業中の集中にも同じヘッドセットを使いたいタイプです。H9 IIなら、遊ぶ時間と作業する時間をひとつの機材で切り替えやすくなります。",
+        cta: "ゲーム用と作業用を分けずに、毎日のデスク環境をすっきりさせたい人に合っています。"
       },
       balanced: {
-        icon: "🎮", title: "オールラウンド型", copy: "ゲームにも、普段使いにも自然に使える。",
+        title: "オールラウンド型", copy: "ゲームにも、普段使いにも自然に使える。",
         valueTitle: "毎日の用途に幅広く使える",
         feature: "音・快適性・通話・デザインのバランス",
-        room: "PCとPS5を切り替えやすいデスク、ゲームと作業を兼用できるシンプルな配置",
-        reason: "競技性、快適性、通話、デザインをバランスよく求めるタイプ。H9 IIを“ゲーム専用の高級機材”ではなく、毎日のゲーム時間と作業時間を底上げする機材として提案できます。",
-        cta: "H9 IIでゲームも作業も快適にアップデート。"
+        room: "PCとPS5を切り替えやすく、ゲームと作業を兼用できるシンプルな配置",
+        reason: "競技性、快適性、通話、デザインをバランスよく求めるタイプです。H9 IIはゲーム専用としてだけでなく、普段の通話や作業にも自然に使いやすい選択肢になります。",
+        cta: "ゲーム、通話、作業をまとめて快適にしたい人に合っています。"
       }
     };
 
@@ -649,6 +652,13 @@
     const submit = document.getElementById("submit");
     const percent = document.getElementById("percent");
     const bar = document.getElementById("bar");
+    const resultIconSvg = `
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M4 13a8 8 0 0 1 16 0" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        <path d="M4 13v4a2 2 0 0 0 2 2h1v-8H6a2 2 0 0 0-2 2Z" stroke="currentColor" stroke-width="2"/>
+        <path d="M20 13v4a2 2 0 0 1-2 2h-1v-8h1a2 2 0 0 1 2 2Z" stroke="currentColor" stroke-width="2"/>
+      </svg>
+    `;
 
     function updateProgress() {
       const count = Object.keys(answers).length;
@@ -701,11 +711,11 @@
       document.getElementById("questions").style.display = "none";
       document.getElementById("submitWrap").style.display = "none";
       document.getElementById("result").style.display = "block";
-      document.getElementById("resultIcon").textContent = r.icon;
+      document.getElementById("resultIcon").innerHTML = resultIconSvg;
       document.getElementById("resultTitle").textContent = r.title;
       document.getElementById("resultCopy").textContent = "“" + r.copy + "”";
       
-      document.getElementById("resultValueTitle").textContent = r.valueTitle || "H9 IIの価値";
+      document.getElementById("resultValueTitle").textContent = r.valueTitle || "H9 IIのポイント";
       document.getElementById("resultFeature").textContent = r.feature;
 
       document.getElementById("resultRoom").textContent = r.room;
@@ -714,7 +724,7 @@
       document.getElementById("shareCopy").textContent = r.copy;
       
       document.getElementById("resultCta").textContent = r.cta;
-      const postText = `私は「${r.title}」でした。${r.copy}\n#INZONE部屋 #H9II #ゲーム没入タイプ診断`;
+      const postText = `私は「${r.title}」でした。${r.copy}\n#INZONEPlayProfile #H9II #ゲーム没入タイプ診断`;
       document.getElementById("xShare").href = "https://twitter.com/intent/tweet?text=" + encodeURIComponent(postText);
       window.scrollTo({ top: document.getElementById("result").offsetTop - 24, behavior: "smooth" });
     };
