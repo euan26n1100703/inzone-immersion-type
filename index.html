@@ -6,7 +6,7 @@
   <title>INZONE PLAY PROFILE | あなたのゲーム没入タイプ診断</title>
   <style>
     :root {
-      --bg: #09090b;
+      --bg: #000000;
       --panel: #18181b;
       --panel2: #27272a;
       --text: #ffffff;
@@ -14,7 +14,7 @@
       --line: rgba(255,255,255,.1);
       --soft: rgba(255,255,255,.08);
       --white: #ffffff;
-      --black: #09090b;
+      --black: #000000;
     }
     * { box-sizing: border-box; }
     body {
@@ -32,10 +32,7 @@
       content: "";
       position: absolute;
       inset: 0;
-      background:
-        radial-gradient(circle at 15% 15%, rgba(90,120,255,.28), transparent 30%),
-        radial-gradient(circle at 85% 10%, rgba(255,255,255,.13), transparent 25%),
-        radial-gradient(circle at 70% 85%, rgba(80,80,120,.22), transparent 28%);
+      background: none;
       pointer-events: none;
     }
     .wrap {
@@ -212,7 +209,7 @@
       grid-template-columns: .9fr 1.1fr;
     }
     .result-left {
-      background: linear-gradient(135deg, #27272a, #09090b);
+      background: #000000;
       padding: 34px;
     }
     .icon-box {
