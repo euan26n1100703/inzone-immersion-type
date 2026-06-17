@@ -316,6 +316,34 @@
       font-weight: 800;
       cursor: pointer;
     }
+    .result-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 24px;
+    }
+    .purchase-button,
+    .result-actions .secondary {
+      margin-top: 0;
+      min-height: 50px;
+      border-radius: 18px;
+      padding: 15px 22px;
+      font-size: 15px;
+      font-weight: 800;
+    }
+    .purchase-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: white;
+      color: var(--black);
+      text-decoration: none;
+    }
+    .result-actions .secondary {
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.06);
+      color: white;
+    }
     .top-actions {
       position: fixed;
       top: 18px;
@@ -506,7 +534,10 @@
           </div>
 
           <p class="cta" id="resultCta"></p>
-          <button class="secondary" id="reset">もう一度診断する</button>
+          <div class="result-actions">
+            <a class="purchase-button" href="https://pur.store.sony.jp/inzone/products/INZONE_H9II/INZONE_H9II_purchase/?s_pid=jp_/inzone/special/INZONE_H9II/_header_h9_purchase" target="_blank" rel="noopener noreferrer">購入サイトを見る</a>
+            <button class="secondary" id="reset">もう一度診断する</button>
+          </div>
         </div>
       </div>
     </section>
